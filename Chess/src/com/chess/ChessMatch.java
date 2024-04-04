@@ -1,6 +1,7 @@
 package com.chess;
 
 import com.boardgame.Board;
+import com.boardgame.Piece;
 import com.boardgame.Position;
 import com.chess.enums.Color;
 import com.chess.pieces.King;
@@ -9,7 +10,6 @@ import com.chess.pieces.Rook;
 public class ChessMatch {
     private Board board;
 
-    // TODO create exception for board bigger than 26
     public ChessMatch(){
         board = new Board(8,8);
         initialSetup();
@@ -25,6 +25,28 @@ public class ChessMatch {
         }
 
         return mat;
+    }
+
+    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition){
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
+
+        validateSourcePosition(source);
+        Piece capturedPiece = makeMove(source, target);
+        return (ChessPiece) capturedPiece;
+    }
+
+    private Piece makeMove(Position source, Position target) {
+        Piece p = board.removePiece(source);
+        Piece capturedPiece = board.removePiece(target);
+        board.placePiece(p, target);
+        return capturedPiece;
+    }
+
+    private void validateSourcePosition(Position position) {
+        if(Boolean.FALSE.equals(board.thereIsAPiece(position)))
+            throw new ChessException("There is no piece on provided position");
+
     }
 
     private void placeNewPiece(char column, int row, ChessPiece piece){

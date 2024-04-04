@@ -1,7 +1,11 @@
 package com.application;
 
 import com.chess.ChessPiece;
+import com.chess.ChessPosition;
 import com.chess.enums.Color;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class UI {
     // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
@@ -25,6 +29,25 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
     private UI(){}
+
+    // https://stackoverflow.com/questions/2979383/java-clear-the-console
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static ChessPosition readChessPosition(Scanner sc){
+        try {
+            String s = sc.nextLine();
+            char column = s.charAt(0);
+            int row = Integer.parseInt(Character.toString(s.charAt(1)));
+            return new ChessPosition(column, row);
+        }
+        catch (RuntimeException e){
+            throw new InputMismatchException("Error while instantiating ChessPosition: a1 to h8 only.");
+        }
+    }
+
     public static void printBoard(ChessPiece[][] chessPieces){
         int rowsNumber = chessPieces.length;
         int columnsNumber = chessPieces[0].length;
