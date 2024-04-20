@@ -1,5 +1,6 @@
 package com.application;
 
+import com.chess.ChessMatch;
 import com.chess.ChessPiece;
 import com.chess.ChessPosition;
 import com.chess.enums.Color;
@@ -36,6 +37,12 @@ public class UI {
         System.out.flush();
     }
 
+    public static void printMatch(ChessMatch chessMatch){
+        printBoard(chessMatch.getPieces());
+        System.out.println("\nTurn: " + chessMatch.getTurn());
+        System.out.println("Waiting player: "+chessMatch.getCurrentPlayer());
+
+    }
     public static ChessPosition readChessPosition(Scanner sc){
         try {
             String s = sc.nextLine();
