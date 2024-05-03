@@ -6,7 +6,6 @@ import com.boardgame.Position;
 import com.chess.enums.Color;
 import com.chess.pieces.*;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,14 +115,6 @@ public class ChessMatch {
     }
 
     public ChessPiece replacePromotedPiece(String type) {
-        if(promoted == null){
-            throw new IllegalStateException("There is no piece to be promoted.");
-        }
-
-        if(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")){
-            throw new InvalidParameterException("Invalid argument");
-        }
-
         Position pos = promoted.getChessPosition().toPosition();
         Piece p = board.removePiece(pos);
         piecesOnTheBoard.remove(p);
@@ -141,7 +132,7 @@ public class ChessMatch {
             case "B" -> new Bishop(board, color);
             case "N" -> new Knight(board, color);
             case "R" -> new Rook(board, color);
-            default -> throw new InvalidParameterException("Invalid Param: Q, B, B, R Only");
+            default -> throw new IllegalStateException("Unexpected value: " + type);
         };
     }
     private void validateTargetPosition(Position source, Position target) {
