@@ -36,6 +36,12 @@ public class Main {
 
 				if (capturedPiece != null)
 					captured.add(capturedPiece);
+
+				if (chessMatch.getPromoted() != null){
+					System.out.println("Type the piece you want to promote: (Q, R, B, N)");
+					String piece = sc.nextLine();
+					chessMatch.replacePromotedPiece(piece);
+				}
 			}
 			catch (ChessException | InputMismatchException e){
 				System.out.println(e.getMessage());
